@@ -55,3 +55,4 @@ PhanMem/node_modules/
 PhanMem/dist/          # Vite intermediate output — NOT a deployable. Use `npm run tauri build`.
 PhanMem/build/
 PhanMem/src-tauri/target/
+PhanMem/src-tauri/target_verify/
