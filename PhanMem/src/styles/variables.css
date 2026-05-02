@@ -1,0 +1,124 @@
+/* ========================================
+   VKS ECMS — Enterprise Design Tokens
+   ======================================== */
+
+:root {
+  /* Colors — Deep indigo palette (enterprise authority) */
+  --color-primary: #2d3a8c;
+  --color-primary-light: #4a5bc7;
+  --color-primary-dark: #1a2566;
+  --color-primary-surface: #eef0fb;
+  --color-primary-ghost: rgba(45, 58, 140, 0.06);
+
+  --color-accent: #e69500;
+  --color-accent-light: #f5b731;
+
+  --color-success: #10b981;
+  --color-success-surface: #ecfdf5;
+  --color-warning: #f59e0b;
+  --color-warning-surface: #fffbeb;
+  --color-danger: #ef4444;
+  --color-danger-surface: #fef2f2;
+  --color-info: #3b82f6;
+  --color-info-surface: #eff6ff;
+
+  /* Neutrals */
+  --color-bg: #f4f6fa;
+  --color-bg-elevated: #ffffff;
+  --color-surface: #ffffff;
+  --color-bg-sidebar: #1b2550;
+  --color-bg-header: #212d66;
+  --color-bg-muted: #f1f3f8;
+  --color-bg-hover: rgba(45, 58, 140, 0.04);
+  --color-bg-active: rgba(45, 58, 140, 0.08);
+  --color-bg-selected: rgba(45, 58, 140, 0.06);
+  --color-primary-soft: rgba(45, 58, 140, 0.08);
+
+  --color-text: #1a1f36;
+  --color-text-secondary: #5e6687;
+  --color-text-muted: #8e94ab;
+  --color-text-inverse: #f1f5f9;
+  --color-text-link: #2d3a8c;
+
+  --color-border: #dfe3ec;
+  --color-border-light: #ebeef5;
+  --color-border-strong: #c1c7d6;
+  --color-divider: #e6e9f0;
+
+  /* Typography */
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
+
+  --text-2xs: 10px;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 22px;
+  --text-3xl: 28px;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Spacing — 4px base */
+  --space-0: 0px;
+  --space-px: 1px;
+  --space-0_5: 2px;
+  --space-1: 4px;
+  --space-1_5: 6px;
+  --space-2: 8px;
+  --space-2_5: 10px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Layout */
+  --sidebar-width: 232px;
+  --sidebar-width-collapsed: 54px;
+  --header-height: 44px;
+  --footer-height: 26px;
+
+  /* Dossier spine — sidebar visual */
+  --spine-bg: linear-gradient(180deg, #1a234e 0%, #16203f 40%, #121a33 100%);
+  --spine-edge: rgba(255, 255, 255, 0.04);
+  --spine-tab-hover-x: 7px;
+  --spine-tab-active-glow: 0 0 12px rgba(230, 149, 0, 0.25);
+  --spine-tab-active-bar: var(--color-accent);
+  --spine-tab-radius: 0 6px 6px 0;
+  --spine-number-size: 9px;
+
+  /* Borders */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-ring: 0 0 0 2px rgba(45, 58, 140, 0.15);
+
+  /* Transitions */
+  --transition-fast: 100ms ease;
+  --transition-base: 180ms ease;
+  --transition-slow: 280ms ease;
+}

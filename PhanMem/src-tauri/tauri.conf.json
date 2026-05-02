@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schema.tauri.app/v2/config",
+  "productName": "VKS - Hồ Sơ Điện Tử",
+  "version": "1.0.0",
+  "identifier": "com.vks.ecms",
+  "build": {
+    "beforeDevCommand": "npm run dev:tauri-vite",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis"
+    ],
+    "icon": [
+      "icons/icon.ico"
+    ],
+    "shortDescription": "viết bơi KKIT - TAT Soft. mobile: 091 4869 566 ",
+    "copyright": "KKIT - TAT Soft",
+    "windows": {
+      "nsis": {
+        "installMode": "perMachine"
+      }
+    }
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "VKS - Hồ sơ án điện tử",
+        "width": 1400,
+        "height": 900,
+        "minWidth": 1024,
+        "minHeight": 700,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'",
+      "assetProtocol": {
+        "enable": true,
+        "scope": [
+          "**"
+        ]
+      }
+    }
+  },
+  "plugins": {
+    "sql": {
+      "preload": [
+        "sqlite:vks-ecms.db"
+      ]
+    }
+  }
+}

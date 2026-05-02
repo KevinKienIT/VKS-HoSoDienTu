@@ -1,2 +1,0 @@
-
-cám ơn bạn đã làm nhưng cái tôi cần là một quy trình chuẩn của một team đày đủ, từ nhận mệnh lệnh, điều phối, phân tích đầy đủ ..., phân công đầy đủ ... đọc tài liẹu .... code giao diện, xây dựng các function, test function, test giao diện, rồi đến đội test (tất cả các khâu cảu test, với agent được check vòng.) rồi fix bug, report, xoá file, folder đã hoàn thành. bạn hãy giúp tôi một quy trình chuẩn của một team AI Rất mạnh về xây dựng dự án tự động

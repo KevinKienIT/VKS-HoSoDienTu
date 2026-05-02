@@ -1,0 +1,21 @@
+# VKS ECMS — Python dependencies
+# Install: pip install -r requirements.txt
+
+# PDF processing
+PyMuPDF>=1.24.0
+
+# OCR engine
+# RapidOCR/ONNX is the primary Windows fallback for printed scan text.
+rapidocr>=3.8.0
+onnxruntime>=1.18.0
+
+# PaddleOCR remains optional for environments where Paddle runtime is stable.
+paddleocr>=2.7.0
+paddlepaddle>=2.6.0
+
+# Image preprocessing for handwriting OCR pipeline
+# Used by _preprocess_for_handwriting() and _preprocess_region_for_handwriting()
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# Catalog scanner (stdlib only — no extra deps)

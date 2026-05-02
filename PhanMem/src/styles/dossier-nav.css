@@ -1,0 +1,350 @@
+/* ========================================
+   VKS ECMS — Dossier Spine Navigation
+   "Gáy sổ hồ sơ" vertical tab system
+   ======================================== */
+
+/* ---- Spine container ---- */
+.dossier-spine {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) 0 var(--space-2) var(--space-1);
+  gap: 2px;
+  position: relative;
+  perspective: 900px;
+}
+
+/* Right edge line — simulates the spine binding */
+.dossier-spine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--spine-edge);
+  pointer-events: none;
+}
+
+/* ---- Individual tab — looks like a paper tab on a binder ---- */
+.dossier-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 9px var(--space-3) 9px var(--space-4);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  transition:
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 150ms ease,
+    color 150ms ease,
+    box-shadow 200ms ease,
+    border-color 150ms ease;
+  border: none;
+  outline: none;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.035));
+  color: rgba(255, 255, 255, 0.78);
+  border-radius: var(--spine-tab-radius);
+  position: relative;
+  margin: 0 var(--space-2) 0 0;
+  border-left: 3px solid transparent;
+  transform: translateX(0);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset -8px 0 16px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.12);
+  transform-origin: left center;
+}
+
+.dossier-tab::after {
+  content: '';
+  position: absolute;
+  right: -7px;
+  top: 5px;
+  bottom: 5px;
+  width: 8px;
+  border-radius: 0 5px 5px 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(0,0,0,0.24));
+  opacity: 0.5;
+}
+
+/* Tab number — faint page marker on the right */
+.dossier-tab-number {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--spine-number-size);
+  font-family: var(--font-mono);
+  font-weight: var(--weight-bold);
+  color: rgba(255, 255, 255, 0);
+  transition: color 200ms ease;
+  pointer-events: none;
+}
+
+/* ---- Hover — tab slides out like pulling a paper divider ---- */
+.dossier-tab:hover {
+  transform: translateX(var(--spine-tab-hover-x)) rotateY(-3deg);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.07));
+  color: #fff;
+  border-left-color: rgba(255, 255, 255, 0.36);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset -8px 0 16px rgba(0, 0, 0, 0.08),
+    4px 4px 14px rgba(0, 0, 0, 0.22);
+}
+
+.dossier-tab:hover .dossier-tab-number {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* ---- Active — the open section, prominent ---- */
+.dossier-tab.active {
+  transform: translateX(calc(var(--spine-tab-hover-x) + 2px)) rotateY(-4deg);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.10));
+  color: #fff;
+  font-weight: var(--weight-semibold);
+  border-left-color: var(--spine-tab-active-bar);
+  box-shadow:
+    var(--spine-tab-active-glow),
+    5px 5px 18px rgba(0, 0, 0, 0.28);
+}
+
+.dossier-tab.active .dossier-tab-number {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* ---- Icon ---- */
+.dossier-tab-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.86;
+  transition: opacity 150ms ease;
+}
+
+.dossier-tab-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+}
+
+.dossier-tab.active .dossier-tab-icon,
+.dossier-tab:hover .dossier-tab-icon {
+  opacity: 1;
+}
+
+/* ---- Label ---- */
+.dossier-tab-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+/* ---- Collapsed state — icon-only, like small paper labels on spine ---- */
+.collapsed .dossier-spine {
+  padding: var(--space-1) 0;
+  align-items: center;
+}
+
+.collapsed .dossier-tab {
+  padding: 10px;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  margin-right: 0;
+  border-left: 2px solid transparent;
+}
+
+.collapsed .dossier-tab:hover {
+  transform: translateX(3px);
+}
+
+.collapsed .dossier-tab:hover::before,
+.collapsed .sidebar-settings-btn:hover::before {
+  content: attr(title);
+  position: fixed;
+  left: calc(var(--sidebar-width-collapsed) + 10px);
+  z-index: 999;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.collapsed .dossier-tab.active {
+  transform: translateX(3px);
+}
+
+.collapsed .dossier-tab.active::before {
+  display: none;
+}
+
+.collapsed .dossier-tab-label,
+.collapsed .dossier-tab-number {
+  display: none;
+}
+
+/* ---- Header — "VKS ECMS" brand mark on spine ---- */
+.dossier-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-3) var(--space-2) var(--space-4);
+  position: relative;
+}
+
+.dossier-folder-icon {
+  font-size: 18px;
+  opacity: 0.7;
+  transition: opacity 200ms ease;
+}
+
+.dossier-header:hover .dossier-folder-icon {
+  opacity: 0.6;
+}
+
+.dossier-title {
+  font-size: var(--text-2xs);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.58);
+  font-weight: var(--weight-bold);
+}
+
+.app-sidebar:not(.collapsed) .dossier-tab-label,
+.app-sidebar:not(.collapsed) .dossier-title {
+  animation: dossierOpenText 180ms ease both;
+}
+
+@keyframes dossierOpenText {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.collapsed .dossier-header {
+  justify-content: center;
+  padding: var(--space-3) var(--space-1);
+}
+
+.collapsed .dossier-title {
+  display: none;
+}
+
+/* ---- Divider ---- */
+.dossier-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.16);
+  margin: var(--space-2) var(--space-3);
+}
+
+.collapsed .dossier-divider {
+  margin: var(--space-2) var(--space-1);
+}
+
+/* ---- Search button section ---- */
+.sidebar-search-section {
+  padding: var(--space-2) var(--space-2) var(--space-1);
+}
+
+.sidebar-search-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: 8px var(--space-3);
+  border: 1px dashed rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: all 180ms ease;
+  text-align: left;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+.sidebar-search-btn:hover {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.42);
+  color: #fff;
+}
+
+.sidebar-search-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.collapsed .sidebar-search-btn {
+  justify-content: center;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+}
+
+.collapsed .sidebar-search-btn .dossier-tab-label {
+  display: none;
+}
+
+/* ---- Bottom section (toggle + settings) ---- */
+.sidebar-bottom {
+  margin-top: auto;
+  padding-bottom: var(--space-2);
+}
+
+.sidebar-settings-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px var(--space-3);
+  margin: 0 var(--space-2);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius-sm);
+  transition: all 150ms ease;
+}
+
+.sidebar-settings-btn:hover {
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
+}
+
+.sidebar-settings-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.sidebar-settings-btn .dossier-tab-icon {
+  opacity: 0.86;
+}
+
+.sidebar-settings-btn.active .dossier-tab-icon,
+.sidebar-settings-btn:hover .dossier-tab-icon {
+  opacity: 1;
+}
+
+.collapsed .sidebar-settings-btn {
+  justify-content: center;
+  padding: 8px;
+  margin: 0 var(--space-1);
+}
+
+.collapsed .sidebar-settings-btn .dossier-tab-label {
+  display: none;
+}

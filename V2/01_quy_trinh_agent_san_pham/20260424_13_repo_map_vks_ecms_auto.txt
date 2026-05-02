@@ -1,6 +1,0 @@
-=========================================
-🗺️ AIDER REPO MAP (Python AST Extract)
-=========================================
-
-📄 PhanMem\scripts\aider_repo_map.py:
-  def generate_python_map(...):

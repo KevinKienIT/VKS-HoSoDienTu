@@ -1,0 +1,1 @@
+# VKS ECMS — Catalog package

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Sơ đồ Vụ án – Lê Thành Công – Điều 134 BLHS</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; color: #222; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1F3864 0%, #2E75B6 100%);
+    color: white; padding: 28px 40px; text-align: center;
+  }
+  .header h1 { font-size: 26px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; }
+  .header h2 { font-size: 16px; font-weight: 400; opacity: 0.85; }
+  .header .meta { margin-top: 12px; display: flex; justify-content: center; gap: 32px; font-size: 13px; opacity: 0.8; }
+  .header .meta span { background: rgba(255,255,255,0.15); padding: 4px 14px; border-radius: 20px; }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
+
+  /* CARDS SUMMARY */
+  .cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 36px; }
+  .card { background: white; border-radius: 12px; padding: 20px 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid; }
+  .card.blue  { border-color: #2E75B6; }
+  .card.red   { border-color: #C00000; }
+  .card.green { border-color: #375623; }
+  .card.orange{ border-color: #C55A11; }
+  .card .num  { font-size: 32px; font-weight: 700; line-height: 1; }
+  .card .lbl  { font-size: 13px; color: #666; margin-top: 4px; }
+  .card.blue .num   { color: #2E75B6; }
+  .card.red .num    { color: #C00000; }
+  .card.green .num  { color: #375623; }
+  .card.orange .num { color: #C55A11; }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-size: 18px; font-weight: 700; color: #1F3864;
+    border-left: 5px solid #2E75B6; padding-left: 14px;
+    margin: 32px 0 20px;
+  }
+
+  /* ===== SƠ ĐỒ QUAN HỆ ===== */
+  .relation-wrap { background: white; border-radius: 14px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 36px; }
+
+  .relation-grid {
+    display: grid;
+    grid-template-columns: 1fr 180px 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0;
+    align-items: center;
+    justify-items: center;
+    position: relative;
+  }
+
+  .node {
+    border-radius: 12px; padding: 14px 18px; text-align: center;
+    font-size: 13px; font-weight: 600; min-width: 160px; box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    position: relative; z-index: 2;
+  }
+  .node .name { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .node .role { font-size: 11px; font-weight: 400; opacity: 0.85; }
+  .node .detail { font-size: 11px; margin-top: 5px; opacity: 0.8; }
+
+  .node-bican   { background: #FDE8E8; border: 2px solid #C00000; color: #7B0000; }
+  .node-bihan   { background: #E8F4FD; border: 2px solid #2E75B6; color: #1A3F6B; }
+  .node-caudat  { background: #FFF3CD; border: 2px solid #C55A11; color: #7B3700; }
+  .node-nhanchung { background: #E9F7EF; border: 2px solid #375623; color: #234016; }
+  .node-coquan  { background: #F3E8FF; border: 2px solid #7030A0; color: #4A0080; }
+  .node-center  { background: linear-gradient(135deg, #1F3864, #2E75B6); color: white; border: none; padding: 22px 28px; min-width: 180px; }
+  .node-center .name { font-size: 17px; }
+
+  .center-col { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+
+  .arrow-label {
+    font-size: 11px; color: #888; background: #f9f9f9;
+    border: 1px solid #ddd; border-radius: 10px;
+    padding: 3px 10px; white-space: nowrap;
+  }
+
+  .col-left, .col-right {
+    display: flex; flex-direction: column; gap: 14px;
+    align-items: stretch; width: 100%;
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline-wrap { background: white; border-radius: 14px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 16px; top: 0; bottom: 0;
+    width: 3px; background: linear-gradient(to bottom, #1F3864, #2E75B6, #C00000);
+    border-radius: 3px;
+  }
+
+  .tl-item { position: relative; margin-bottom: 24px; }
+  .tl-dot {
+    position: absolute; left: -32px; top: 4px;
+    width: 18px; height: 18px; border-radius: 50%; border: 3px solid white;
+    box-shadow: 0 0 0 2px currentColor; z-index: 1;
+  }
+  .tl-dot.khoi-to   { background: #C00000; color: #C00000; }
+  .tl-dot.dieu-tra  { background: #2E75B6; color: #2E75B6; }
+  .tl-dot.giam-dinh { background: #375623; color: #375623; }
+  .tl-dot.loi-khai  { background: #C55A11; color: #C55A11; }
+  .tl-dot.ket-thuc  { background: #1F3864; color: #1F3864; }
+
+  .tl-card {
+    background: #f8f9fa; border-radius: 10px; padding: 14px 18px;
+    border-left: 4px solid; transition: box-shadow 0.2s;
+  }
+  .tl-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .tl-card.khoi-to   { border-color: #C00000; background: #FDE8E8; }
+  .tl-card.dieu-tra  { border-color: #2E75B6; background: #EBF3FA; }
+  .tl-card.giam-dinh { border-color: #375623; background: #E9F7EF; }
+  .tl-card.loi-khai  { border-color: #C55A11; background: #FEF3E2; }
+  .tl-card.ket-thuc  { border-color: #1F3864; background: #EEF0F8; }
+
+  .tl-date { font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tl-title { font-size: 15px; font-weight: 700; margin: 3px 0 5px; }
+  .tl-desc  { font-size: 13px; color: #555; line-height: 1.5; }
+  .tl-ref   { display: inline-block; margin-top: 6px; font-size: 11px; background: rgba(0,0,0,0.06); border-radius: 10px; padding: 2px 10px; color: #666; }
+
+  .badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    border-radius: 8px; padding: 2px 8px; margin-right: 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .badge-red    { background: #C00000; color: white; }
+  .badge-blue   { background: #2E75B6; color: white; }
+  .badge-green  { background: #375623; color: white; }
+  .badge-orange { background: #C55A11; color: white; }
+  .badge-dark   { background: #1F3864; color: white; }
+
+  /* FOLDER TABLE */
+  .folder-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .folder-table th { background: #1F3864; color: white; padding: 12px 16px; text-align: left; font-size: 13px; }
+  .folder-table td { padding: 11px 16px; font-size: 13px; border-bottom: 1px solid #eee; }
+  .folder-table tr:last-child td { border-bottom: none; }
+  .folder-table tr:nth-child(even) td { background: #f5f8fc; }
+  .folder-name { font-family: monospace; font-size: 12px; color: #2E75B6; font-weight: 600; }
+  .file-count { text-align: center; font-weight: 700; color: #1F3864; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+  footer { text-align: center; padding: 24px; color: #aaa; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🏛️ SƠ ĐỒ VỤ ÁN HÌNH SỰ</h1>
+  <h2>Tội: CỐ Ý GÂY THƯƠNG TÍCH – Điều 134 khoản 2 Bộ luật Hình sự</h2>
+  <div class="meta">
+    <span>👤 Bị can: LÊ THÀNH CÔNG</span>
+    <span>📋 Số vụ: 327/QĐ-CQCSĐT(ĐTTH)</span>
+    <span>📍 Địa điểm: Đường Võ Nguyên Giáp, Bãi Cháy, Hạ Long</span>
+    <span>📅 Ngày xảy ra: 22/08/2023</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- CARDS -->
+  <div class="cards">
+    <div class="card red">
+      <div class="num">1</div>
+      <div class="lbl">Bị can</div>
+    </div>
+    <div class="card blue">
+      <div class="num">2</div>
+      <div class="lbl">Người bị hại</div>
+    </div>
+    <div class="card green">
+      <div class="num">68</div>
+      <div class="lbl">File tài liệu gốc</div>
+    </div>
+    <div class="card orange">
+      <div class="num">5+</div>
+      <div class="lbl">Tháng điều tra</div>
+    </div>
+  </div>
+
+  <!-- SƠ ĐỒ QUAN HỆ CÁC BÊN -->
+  <div class="section-title">① SƠ ĐỒ QUAN HỆ CÁC BÊN TRONG VỤ ÁN</div>
+  <div class="relation-wrap">
+    <div style="display:grid; grid-template-columns: 1fr 200px 1fr; gap: 24px; align-items: center;">
+
+      <!-- CỘT TRÁI -->
+      <div class="col-left">
+        <div class="node node-bican" style="text-align:center;">
+          <div class="name">🔴 LÊ THÀNH CÔNG</div>
+          <div class="role">BỊ CAN</div>
+          <div class="detail">Sinh 02/4/2003 – Bắc Ninh<br>Có tiền án (BA số 84/2020)<br>Tội: Cố ý gây thương tích Đ.134k2</div>
+        </div>
+        <div class="node node-caudat" style="text-align:center;">
+          <div class="name">🟠 Đặng Quang Vinh</div>
+          <div class="role">Nhân chứng</div>
+          <div class="detail">Có mặt tại hiện trường<br>Đi cùng nhóm với bị can</div>
+        </div>
+        <div class="node node-nhanchung" style="text-align:center;">
+          <div class="name">🟢 Nguyễn Văn Vũ</div>
+          <div class="role">Nhân chứng – Bắc Ninh</div>
+        </div>
+        <div class="node node-nhanchung" style="text-align:center;">
+          <div class="name">🟢 Lưu Quốc Nhân</div>
+          <div class="role">Người liên quan – Hạ Long</div>
+        </div>
+      </div>
+
+      <!-- CỘT GIỮA – VỤ ÁN -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap: 12px;">
+        <div class="node node-center" style="text-align:center; border-radius:50%; width:180px; height:180px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+          <div class="name" style="font-size:14px;">⚖️ VỤ ÁN</div>
+          <div style="font-size:11px; opacity:0.85; margin-top:4px;">Điều 134 BLHS<br>22/08/2023<br>Hạ Long – QN</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+          <div class="node node-coquan" style="text-align:center; padding: 10px;">
+            <div class="name" style="font-size:12px;">🏛 CQCSĐT CA TP Hạ Long</div>
+            <div class="role" style="font-size:10px;">Cơ quan điều tra</div>
+          </div>
+          <div class="node node-coquan" style="text-align:center; padding: 10px;">
+            <div class="name" style="font-size:12px;">🏛 VKSND TP Hạ Long</div>
+            <div class="role" style="font-size:10px;">Viện kiểm sát</div>
+          </div>
+          <div class="node node-coquan" style="text-align:center; padding: 10px;">
+            <div class="name" style="font-size:12px;">🔬 TT Pháp y – Sở YT QN</div>
+            <div class="role" style="font-size:10px;">Giám định thương tích</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CỘT PHẢI -->
+      <div class="col-right">
+        <div class="node node-bihan" style="text-align:center;">
+          <div class="name">🔵 Nông Thị Thu Hiền</div>
+          <div class="role">NGƯỜI BỊ HẠI CHỦ YẾU</div>
+          <div class="detail">Sinh 01/3/2001 – Bắc Ninh<br>Gãy xương chày + xương mác trái<br>Tỷ lệ TT cơ thể: ~51%</div>
+        </div>
+        <div class="node node-bihan" style="text-align:center;">
+          <div class="name">🔵 Nguyễn Sỹ Hoàng Anh</div>
+          <div class="role">NGƯỜI BỊ HẠI</div>
+          <div class="detail">Sinh 20/8/2005 – Bắc Ninh<br>Điều trị tại BV Lương Tài</div>
+        </div>
+        <div class="node node-nhanchung" style="text-align:center;">
+          <div class="name">🟢 Lý Thị Nguyệt</div>
+          <div class="role">Nhân chứng</div>
+        </div>
+        <div class="node node-nhanchung" style="text-align:center;">
+          <div class="name">🟢 Nguyễn Tý / Thị Hoàng Anh</div>
+          <div class="role">Nhân chứng – người liên quan</div>
+        </div>
+        <div class="node node-caudat" style="text-align:center;">
+          <div class="name">🟠 Nông Quốc Hằng</div>
+          <div class="role">Đại diện gia đình nạn nhân</div>
+          <div class="detail">Nhận 25 triệu bồi thường</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Chú thích quan hệ -->
+    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee; display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #666;">
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:30px;height:3px;background:#C00000;display:inline-block;"></span> Bị can → Tấn công người bị hại</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:30px;height:3px;background:#2E75B6;display:inline-block;"></span> Cơ quan điều tra → Tiến hành tố tụng</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:30px;height:3px;background:#375623;display:inline-block;"></span> Nhân chứng → Cung cấp lời khai</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:30px;height:3px;background:#7030A0;display:inline-block;"></span> Cơ quan tố tụng → Giám định / truy tố</span>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section-title">② DÒNG THỜI GIAN TỐ TỤNG</div>
+  <div class="timeline-wrap">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#C00000;"></div> Khởi tố / Sự kiện chính</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2E75B6;"></div> Hoạt động điều tra</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#375623;"></div> Giám định / Y tế</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#C55A11;"></div> Lời khai / Thẩm vấn</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1F3864;"></div> Kết thúc điều tra</div>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot khoi-to"></div>
+        <div class="tl-card khoi-to">
+          <div class="tl-date">22/08/2023 – 0 giờ 35 phút</div>
+          <div class="tl-title"><span class="badge badge-red">SỰ KIỆN</span>Xảy ra vụ Cố ý gây thương tích</div>
+          <div class="tl-desc">Lê Thành Công cùng nhóm tấn công Nông Thị Thu Hiền và Nguyễn Sỹ Hoàng Anh tại đường Võ Nguyên Giáp, khu 1, phường Bãi Cháy, TP Hạ Long. Nạn nhân được đưa vào Bệnh viện Bãi Cháy cấp cứu.</div>
+          <span class="tl-ref">📂 Đơn YCKT – Phiếu truyền dịch BV Bãi Cháy</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dieu-tra"></div>
+        <div class="tl-card dieu-tra">
+          <div class="tl-date">22 – 27/08/2023</div>
+          <div class="tl-title"><span class="badge badge-blue">ĐIỀU TRA</span>Khám nghiệm hiện trường & phương tiện</div>
+          <div class="tl-desc">Tiến hành xác định hiện trường 4 lần (22/8, 25/8 ×2, 26/8). Khám phương tiện xe Honda Wave BS 99-E1 646.42. Chụp ảnh hiện trường (CB Vũ Minh Tưởng, Trương Thế Đại). Phát hiện vật cứng dùng làm hung khí.</div>
+          <span class="tl-ref">📂 BB xác định hiện trường lần 1–4 · BB khám phương tiện · Bản ảnh</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot loi-khai"></div>
+        <div class="tl-card loi-khai">
+          <div class="tl-date">22 – 26/08/2023</div>
+          <div class="tl-title"><span class="badge badge-orange">LỜI KHAI</span>Lấy lời khai bước đầu</div>
+          <div class="tl-desc">Lấy lời khai Lê Thành Công (lần 1 – 22/8), biên bản làm việc 24/8. Lấy lời khai các nhân chứng: Đặng Quang Vinh, Lý Thị Nguyệt, Nguyễn Tý Hoàng Anh (22/8), Nguyễn Thị Hoàng Anh (26/8), Nguyễn Văn Vũ tại Bắc Ninh.</div>
+          <span class="tl-ref">📂 BB ghi lời khai LTC lần 1 · BB làm việc 24/8 · BB các nhân chứng</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dieu-tra"></div>
+        <div class="tl-card dieu-tra">
+          <div class="tl-date">26/08/2023</div>
+          <div class="tl-title"><span class="badge badge-blue">ĐIỀU TRA</span>Kiểm tra điện thoại bị can</div>
+          <div class="tl-desc">Tiến hành kiểm tra điện thoại của Lê Thành Công. Gửi công văn phối hợp điều tra đến VKS tỉnh Bắc Ninh để xác minh nơi cư trú, nhân thân bị can.</div>
+          <span class="tl-ref">📂 Bản ảnh kiểm tra điện thoại · CV phối hợp VKS Bắc Ninh</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dieu-tra"></div>
+        <div class="tl-card dieu-tra">
+          <div class="tl-date">29/09/2023</div>
+          <div class="tl-title"><span class="badge badge-blue">ĐIỀU TRA</span>Xác minh phương tiện giao thông</div>
+          <div class="tl-desc">Xác minh xe BS 29N1-591.01 (chủ xe: Hoàng Hải Linh, Phú Thuy, Phú Thị, Gia Lâm, Hà Nội). Xác định xe Yamaha Exciter BS 99-E1 646.42 được dùng trong vụ án.</div>
+          <span class="tl-ref">📂 Phiếu trả lời xác minh xe</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot khoi-to"></div>
+        <div class="tl-card khoi-to">
+          <div class="tl-date">30/09/2023</div>
+          <div class="tl-title"><span class="badge badge-red">KHỞI TỐ</span>Quyết định khởi tố vụ án hình sự</div>
+          <div class="tl-desc">Phó Thủ trưởng CQCSĐT – Thượng tá Biện Hùng Cường ký Quyết định số 327/QĐ-CQCSĐT(ĐTTH) khởi tố vụ án hình sự về tội Cố ý gây thương tích theo khoản 2 Điều 134 BLHS.</div>
+          <span class="tl-ref">📂 01_QD_Khoi_to_vu_an_so327_30092023.pdf</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot giam-dinh"></div>
+        <div class="tl-card giam-dinh">
+          <div class="tl-date">Tháng 9 – 10/2023</div>
+          <div class="tl-title"><span class="badge badge-green">GIÁM ĐỊNH</span>Trưng cầu giám định thương tích</div>
+          <div class="tl-desc">Ban hành Quyết định trưng cầu giám định tỷ lệ tổn thương cơ thể cho Nông Thị Thu Hiền và Nguyễn Sỹ Hoàng Anh. Gửi đến Trung tâm Pháp y Sở Y tế tỉnh Quảng Ninh.</div>
+          <span class="tl-ref">📂 QĐ trưng cầu GĐ NTTH · QĐ trưng cầu GĐ NSHA</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dieu-tra"></div>
+        <div class="tl-card dieu-tra">
+          <div class="tl-date">13/11/2023</div>
+          <div class="tl-title"><span class="badge badge-blue">ĐIỀU TRA</span>Trưng cầu giám định camera ADS & Thông báo xem xét bắt giam</div>
+          <div class="tl-desc">Ban hành Quyết định trưng cầu giám định hệ thống camera ADS lần 1 và lần 2 nhằm xác định hành vi của bị can qua dữ liệu camera. Đồng thời ra thông báo xem xét việc bắt tạm giam bị can.</div>
+          <span class="tl-ref">📂 QĐ trưng cầu GĐ ADS 1&2 · TB xem xét bắt giam</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dieu-tra"></div>
+        <div class="tl-card dieu-tra">
+          <div class="tl-date">09/12/2023</div>
+          <div class="tl-title"><span class="badge badge-blue">ĐIỀU TRA</span>Thực nghiệm điều tra tại hiện trường</div>
+          <div class="tl-desc">Tiến hành thực nghiệm điều tra tại đường Võ Nguyên Giáp, tái hiện lại diễn biến vụ việc. CB Nguyễn Tiến Dũng lập bản ảnh 01 ảnh kèm theo biên bản.</div>
+          <span class="tl-ref">📂 BB thực nghiệm điều tra · Bản ảnh 09/12/2023</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot giam-dinh"></div>
+        <div class="tl-card giam-dinh">
+          <div class="tl-date">26/12/2023</div>
+          <div class="tl-title"><span class="badge badge-green">GIÁM ĐỊNH</span>Nhận kết luận giám định tỷ lệ tổn thương cơ thể</div>
+          <div class="tl-desc">Thông báo số 203/TB-CQCSĐT: Nông Thị Thu Hiền có tỷ lệ tổn thương cơ thể ~51% (gãy hộ D II 1/3 giữa xương chày, gãy kín 1/3 trên xương mác trái). Đây là căn cứ quan trọng xác định khung hình phạt khoản 2 Điều 134.</div>
+          <span class="tl-ref">📂 TB kết luận giám định số 203/TB-CQCSĐT</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot loi-khai"></div>
+        <div class="tl-card loi-khai">
+          <div class="tl-date">25 – 30/12/2023</div>
+          <div class="tl-title"><span class="badge badge-orange">LỜI KHAI</span>Lấy lời khai bổ sung & Giải thích quyền pháp lý</div>
+          <div class="tl-desc">Lấy lời khai bổ sung Lê Thành Công lần 2 (25/12/2023). Ngày 30/12/2023: Giải thích quyền được trợ giúp pháp lý cho bị can theo quy định pháp luật.</div>
+          <span class="tl-ref">📂 BB ghi lời khai LTC lần 2 · BB giải thích quyền TGPL</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot loi-khai"></div>
+        <div class="tl-card loi-khai">
+          <div class="tl-date">07/01/2024</div>
+          <div class="tl-title"><span class="badge badge-orange">LỜI KHAI</span>Lấy lời khai bổ sung lần cuối</div>
+          <div class="tl-desc">Điều tra viên Nguyễn Tiến Đồng tiến hành lấy lời khai bổ sung của bị can Lê Thành Công, hoàn thiện hồ sơ trước khi kết luận điều tra.</div>
+          <span class="tl-ref">📂 BB ghi lời khai 07/01/2024</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot ket-thuc"></div>
+        <div class="tl-card ket-thuc">
+          <div class="tl-date">25/01/2024</div>
+          <div class="tl-title"><span class="badge badge-dark">KẾT THÚC</span>Ban hành Kết luận điều tra – Đề nghị truy tố</div>
+          <div class="tl-desc">CQCSĐT CA TP Hạ Long ban hành Bản kết luận điều tra số 11/KL-ĐT-CQCSĐT, kết luận Lê Thành Công phạm tội Cố ý gây thương tích theo khoản 2 Điều 134 BLHS và đề nghị VKSND TP Hạ Long truy tố bị can ra trước Tòa án.</div>
+          <span class="tl-ref">📂 06_Ban_ket_luan_dieu_tra_de_nghi_truy_to.pdf</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CẤU TRÚC HỒ SƠ -->
+  <div class="section-title">③ CẤU TRÚC THƯ MỤC HỒ SƠ VỤ ÁN</div>
+  <table class="folder-table">
+    <thead>
+      <tr>
+        <th>Thư mục</th>
+        <th style="text-align:center;">Số file</th>
+        <th>Nội dung</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="folder-name">00_Index_Trich_dan/</span></td>
+        <td class="file-count">3</td>
+        <td>Bảng chỉ mục trích dẫn, báo cáo tổng hợp, sơ đồ vụ án (file này)</td>
+      </tr>
+      <tr>
+        <td><span class="folder-name">01_Van_ban_to_tung/</span></td>
+        <td class="file-count">6</td>
+        <td>QĐ khởi tố, QĐ trưng cầu giám định (4), Kết luận điều tra đề nghị truy tố</td>
+      </tr>
+      <tr>
+        <td><span class="folder-name">02_Bien_ban_dieu_tra/</span></td>
+        <td class="file-count">10</td>
+        <td>BB xác định hiện trường (4 lần), BB thực nghiệm, BB khám phương tiện, phiếu xác minh xe, trang bổ sung</td>
+      </tr>
+      <tr>
+        <td><span class="folder-name">03_Giam_dinh_y_te/</span></td>
+        <td class="file-count">5</td>
+        <td>Kết luận giám định thương tích, giám định tài sản, bệnh án BV Bãi Cháy, BV Lương Tài</td>
+      </tr>
+      <tr>
+        <td><span class="folder-name">04_Ban_anh/</span></td>
+        <td class="file-count">18</td>
+        <td>Hiện trường (04a) · Phương tiện/vật chứng (04b) · Thương tích pháp y (04c) · Bản ảnh nhận dạng</td>
+      </tr>
+      <tr>
+        <td><span class="folder-name">05_Loi_khai/</span></td>
+        <td class="file-count">14</td>
+        <td>Lời khai bị can (3 lần), bản tự khai nạn nhân (2 lần), lời khai 7 nhân chứng/người liên quan</td>
+      </tr>
+      <tr>
+        <td><span class="folder-name">06_Ho_so_bi_can/</span></td>
+        <td class="file-count">4</td>
+        <td>Lý lịch bị can, bản án tiền sự, BB giải thích quyền TGPL, bản ảnh kiểm tra điện thoại</td>
+      </tr>
+      <tr>
+        <td><span class="folder-name">07_Tai_lieu_bo_sung/</span></td>
+        <td class="file-count">6</td>
+        <td>Đơn YCKT, giấy biên nhận bồi thường, CV phối hợp VKS Bắc Ninh, BB giao nhận, TB bắt giam, file hỏng</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<footer>
+  Sơ đồ vụ án – Lê Thành Công – Điều 134 BLHS &nbsp;|&nbsp; CQCSĐT CA TP Hạ Long – VKSND TP Hạ Long &nbsp;|&nbsp; Lập ngày 14/04/2026
+</footer>
+
+</body>
+</html>
