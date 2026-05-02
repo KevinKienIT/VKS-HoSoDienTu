@@ -56,3 +56,4 @@ PhanMem/dist/          # Vite intermediate output — NOT a deployable. Use `npm
 PhanMem/build/
 PhanMem/src-tauri/target/
 PhanMem/src-tauri/target_verify/
+V2_Archive.zip
