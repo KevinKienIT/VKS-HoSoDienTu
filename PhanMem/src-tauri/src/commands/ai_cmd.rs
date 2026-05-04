@@ -29,6 +29,7 @@ pub struct AiAnswer {
     pub mode: String,
     pub answer: String,
     pub sources: Vec<AiSource>,
+    pub citation_warning: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -311,6 +312,7 @@ pub fn ai_summarize_case(db: State<'_, DbState>, case_id: String) -> Result<AiAn
         mode: "extractive_offline_sqlite".to_string(),
         answer,
         sources: context.sources,
+        citation_warning: false,
     })
 }
 
@@ -351,9 +353,11 @@ pub fn ai_ask_case(
         answer.push_str("\nTra loi tren la tong hop co dan nguon offline. Neu can ket luan nghiep vu, doi chieu truc tiep tai lieu goc theo trang da neu.");
     }
 
+    let citation_warning = context.sources.is_empty();
     Ok(AiAnswer {
         mode: "extractive_offline_sqlite".to_string(),
         answer,
         sources: context.sources,
+        citation_warning,
     })
 }

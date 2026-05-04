@@ -422,6 +422,8 @@ def _build_layout(lines: list[dict], page_width: int | None = None, page_height:
         block_lines = sorted(block["lines"], key=lambda l: (int(l["bbox"][1]), int(l["bbox"][0])))
         block_text = "\n".join([str(ln.get("text", "")).strip() for ln in block_lines if str(ln.get("text", "")).strip()])
         block["text"] = block_text
+        block["normalized_text"] = _normalize_text(block_text)
+        block["unicode_form"] = "NFC"
         confidences = [float(ln.get("confidence", 0.0)) for ln in block_lines]
         avg_conf = sum(confidences) / len(confidences) if confidences else 0.0
         block["confidence"] = avg_conf
@@ -619,6 +621,8 @@ def _parse_paddle_v3(result: Any, mode: str) -> list[dict]:
                 bbox = _bbox_from_points(raw_box)
             line = {
                 "text": text,
+                "normalized_text": _normalize_text(text),
+                "unicode_form": "NFC",
                 "bbox": bbox,
                 "confidence": confidence,
                 "type": _line_kind(text, confidence, mode),

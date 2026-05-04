@@ -61,4 +61,5 @@ V2_Archive.zip
 # Large binaries and test data
 *.exe
 PhanMem/_test_hoso/
+PhanMem/_test_output/
 PhanMem/test_hw_sample.png

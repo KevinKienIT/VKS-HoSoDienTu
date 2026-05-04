@@ -31,9 +31,29 @@ pub fn exports_dir() -> Result<PathBuf, String> {
     Ok(managed_root()?.join("exports"))
 }
 
+pub fn processing_dir() -> Result<PathBuf, String> {
+    Ok(managed_root()?.join("processing"))
+}
+
+pub fn reviewed_dir() -> Result<PathBuf, String> {
+    Ok(managed_root()?.join("reviewed"))
+}
+
+pub fn managed_dir() -> Result<PathBuf, String> {
+    Ok(managed_root()?.join("managed"))
+}
+
 pub fn ensure_managed_dirs() -> Result<(), String> {
-    for dir in [originals_dir()?, processed_dir()?, exports_dir()?] {
-        fs::create_dir_all(&dir)
+    let dirs = [
+        originals_dir()?,
+        processed_dir()?,
+        exports_dir()?,
+        processing_dir()?,
+        reviewed_dir()?,
+        managed_dir()?,
+    ];
+    for dir in &dirs {
+        fs::create_dir_all(dir)
             .map_err(|e| format!("STORAGE_CREATE_DIR_FAILED:{}:{e}", dir.display()))?;
     }
     Ok(())

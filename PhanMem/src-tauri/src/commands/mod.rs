@@ -10,3 +10,4 @@ pub mod module_cmd;
 pub mod review_cmd;
 pub mod scan_cmd;
 pub mod search_cmd;
+pub mod system_cmd;

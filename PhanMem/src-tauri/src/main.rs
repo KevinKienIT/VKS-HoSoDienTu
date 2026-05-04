@@ -150,6 +150,7 @@ fn main() {
             commands::ai_cmd::ai_check_status,
             commands::ai_cmd::ai_summarize_case,
             commands::ai_cmd::ai_ask_case,
+            commands::system_cmd::run_startup_self_check,
         ])
         .setup(|app| {
             let app_data_dir = app.path().app_data_dir()?;

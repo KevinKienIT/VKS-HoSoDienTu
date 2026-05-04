@@ -1150,6 +1150,15 @@ pub fn import_document(
         .map_err(|e| format!("DOC_IMPORT_CASE_CODE_QUERY_FAILED: {e}"))?;
 
     let document_id = generate_document_id();
+    let is_office = source_path.extension()
+        .and_then(|ext| ext.to_str())
+        .map(|ext| matches!(ext.to_ascii_lowercase().as_str(), "doc" | "docx" | "xls" | "xlsx" | "ppt" | "pptx" | "rtf"))
+        .unwrap_or(false);
+
+    if is_office {
+        warn!("import_office_file_warning: path={} OCR support pending (Phase 2)", source_path.display());
+    }
+
     let managed_path = storage::copy_to_originals(source_path, &case_code, &document_id, &file_name)?;
     let managed_file_path = managed_path.to_string_lossy().to_string();
     let summary_detail = build_summary_detail(&display_name, &document_type, &managed_file_path);
