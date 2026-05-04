@@ -1,21 +1,35 @@
 # VKS ECMS — Python dependencies
 # Install: pip install -r requirements.txt
+# Python: 3.11.9 (tested 2026-05-04)
+# Venv: PhanMem/.venv
 
-# PDF processing
-PyMuPDF>=1.24.0
-
-# OCR engine
-# RapidOCR/ONNX is the primary Windows fallback for printed scan text.
+# === PRIMARY OCR ENGINE (RapidOCR + ONNX) ===
+# RapidOCR is the primary Windows OCR engine: lightweight, fast, ONNX-based.
 rapidocr>=3.8.0
 onnxruntime>=1.18.0
 
-# PaddleOCR remains optional for environments where Paddle runtime is stable.
+# === SECONDARY OCR ENGINE (PaddleOCR — optional) ===
+# PaddleOCR remains for environments where Paddle runtime is stable.
+# NOTE: PaddleOCR 3.5+ uses .predict() instead of .ocr() — API breaking change.
 paddleocr>=2.7.0
 paddlepaddle>=2.6.0
 
-# Image preprocessing for handwriting OCR pipeline
-# Used by _preprocess_for_handwriting() and _preprocess_region_for_handwriting()
-opencv-python>=4.8.0
-numpy>=1.24.0
+# === PDF PROCESSING ===
+PyMuPDF>=1.24.0          # fitz — read PDF, extract page images, text extraction
 
-# Catalog scanner (stdlib only — no extra deps)
+# === IMAGE PREPROCESSING ===
+# Used by OCR pipeline preprocessing and handwriting detection
+opencv-python-headless>=4.9.0
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# === AI OFFLINE CLIENT ===
+# Ollama Python client for local LLM (Qwen 2.5 3B/7B)
+# Requires Ollama desktop: https://ollama.com/download
+ollama>=0.4.0
+
+# === DOCX EXPORT ===
+# Tạo file Word (.docx) chuyên nghiệp từ OCR output
+python-docx>=1.1.0
+
+# === Catalog scanner (stdlib only — no extra deps) ===

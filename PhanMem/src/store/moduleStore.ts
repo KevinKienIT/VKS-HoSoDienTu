@@ -7,8 +7,8 @@
 
 import { create } from "zustand";
 import { invoke } from "@tauri-apps/api/core";
-import type { ModuleConfig } from "../modules/registry";
-import { getDefaultConfigs } from "../modules/registry";
+import type { ModuleConfig } from "../modules/loidung/registry";
+import { getDefaultConfigs } from "../modules/loidung/registry";
 
 // Will be replaced with real Tauri invoke in Phase 1B
 async function invokeGetModuleConfigs(): Promise<ModuleConfig[]> {

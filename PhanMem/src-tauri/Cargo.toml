@@ -1,6 +1,6 @@
 [package]
 name = "vks-ecms"
-version = "1.0.0"
+version = "0.1.0"
 description = "VKS Ho So Dien Tu"
 authors = ["VKS Team"]
 edition = "2021"

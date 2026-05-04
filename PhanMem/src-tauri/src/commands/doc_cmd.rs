@@ -584,16 +584,26 @@ fn insert_layout_block(
     let (x, y, width, height) = bbox_to_xywh(raw.get("bbox").unwrap_or(&serde_json::Value::Null));
     let page_width = raw.get("page_width").and_then(|v| v.as_f64());
     let page_height = raw.get("page_height").and_then(|v| v.as_f64());
+    let normalized_text = raw
+        .get("normalized_text")
+        .and_then(|v| v.as_str())
+        .unwrap_or_default();
+    let unicode_form = raw
+        .get("unicode_form")
+        .and_then(|v| v.as_str())
+        .unwrap_or("NFC");
 
     conn.execute(
         "INSERT INTO page_layout_blocks (
             id, document_id, page_id, page_number, block_type, text,
+            normalized_text, unicode_form,
             x, y, width, height, page_width, page_height, confidence,
             reading_order, engine, source, raw_json, created_at
          ) VALUES (
             ?1, ?2, ?3, ?4, ?5, ?6,
-            ?7, ?8, ?9, ?10, ?11, ?12, ?13,
-            ?14, ?15, ?16, ?17, strftime('%Y-%m-%dT%H:%M:%SZ', 'now')
+            ?7, ?8,
+            ?9, ?10, ?11, ?12, ?13, ?14, ?15,
+            ?16, ?17, ?18, ?19, strftime('%Y-%m-%dT%H:%M:%SZ', 'now')
          )",
         params![
             block_id,
@@ -602,6 +612,8 @@ fn insert_layout_block(
             page_number,
             block_type,
             text,
+            normalized_text,
+            unicode_form,
             x,
             y,
             width,

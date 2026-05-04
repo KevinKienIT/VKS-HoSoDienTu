@@ -53,16 +53,12 @@ v3/
 ├── README.md
 ├── NEXT_ACTION.md
 ├── TONGHOP.md                         <- file dieu phoi trung tam nay
-├── 00_inbox_root/                     <- noi gom prompt/tep dau vao neu co
-├── 01_governance/                     <- luat agent, runtime, orchestration
-├── 02_identity_memory/                <- thong tin nhan dien/memory phu tro
+├── 01_governance/                     <- ★ LUAT TONG (AGENTS, runtime, orchestration)
 ├── 03_specs/                          <- dac ta san pham, UI, schema, nghiep vu
-├── 04_plans/                          <- plan phu neu co
 ├── 05_logs/                           <- log dieu phoi theo ngay/phase
 ├── 06_reference_samples/              <- mau DOCX/HTML dau ra can mo phong
 ├── 07_external_refs/                  <- tham khao ngoai, khong phai source of truth
 ├── 08_execution_phases/               <- phase thuc thi P0-P6 + preplan
-├── agent/                             <- ban copy agent config
 └── standards/                         <- luat kien truc, runtime, OCR, lifecycle
 ```
 

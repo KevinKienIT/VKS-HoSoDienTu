@@ -61,13 +61,13 @@ v3/
 ├── NEXT_ACTION.md              ← BẠN ĐANG Ở ĐÂY
 ├── README.md                   ← Giới thiệu cấu trúc v3
 │
-├── 01_governance/              ← Quy tắc vận hành agent
-│   ├── 01_AGENTS.md            ← Identity + personality
-│   ├── 02_TOOLS.md             ← Tool config notes
+├── 01_governance/              ← ★ LUẬT TỔNG — đọc đầu tiên
+│   ├── 01_AGENTS.md            ← Quy chuẩn bắt buộc toàn dự án
 │   ├── 03_AGENT_RUNTIME_RULES.md ← Log bắt buộc + gate xóa phase
 │   └── 04_ORCHESTRATION_PROTOCOL.md ← Luồng điều phối leader→agent
 │
-├── 03_specs/                   ← Đặc tả nghiệp vụ (27 file V2 + tonghop)
+├── 03_specs/                   ← Đặc tả nghiệp vụ
+│   ├── 00_SPEC_INDEX.md        ← Mục lục 31 file specs + trạng thái
 │   ├── 01_tonghop.md           ← ★ Spec tổng hợp nhất (57KB)
 │   └── 20260424_*.md           ← Đặc tả chi tiết từng module
 │
@@ -85,7 +85,7 @@ v3/
 │
 ├── 05_logs/                    ← Log điều phối theo ngày
 │   ├── 01_LOG_TEMPLATE.md      ← Template chuẩn
-│   └── 20260429_phase-mvp-p0.md ← Log ngày hiện tại
+│   └── 20260504_phase-mvp-p0.md ← Log ngày mới nhất
 │
 └── 06_reference_samples/       ← Mẫu đầu ra đích (DOCX/HTML)
 ```
@@ -119,7 +119,10 @@ v3/
 
 ## 4. PHASE ĐANG ACTIVE VÀ LỘ TRÌNH
 
-### ★ ĐANG LÀM: Phase 1 — P0 Foundation
+### ★ ĐANG LÀM: P0 — Foundation
+
+> **Quy ước đánh số:** P1 bỏ qua cố ý. Chuỗi phase: P0 → P2 → P3 → P4 → P5 → P6.
+> **Phân biệt:** P0-04 = citation **warning**. P4-01 = citation **hard-stop** (chặn cứng). Hai task khác scope.
 
 File chi tiết: [`01_phase_p0_foundation.md`](v3/08_execution_phases/01_phase_p0_foundation.md)
 

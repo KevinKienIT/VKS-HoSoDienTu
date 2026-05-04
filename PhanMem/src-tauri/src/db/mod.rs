@@ -13,6 +13,7 @@ const MIGRATION_003: &str = include_str!("../../migrations/003_scan_ricoh.sql");
 const MIGRATION_004: &str = include_str!("../../migrations/004_pipeline_phase1.sql");
 const MIGRATION_005: &str = include_str!("../../migrations/005_ocr_layout_utf8.sql");
 const MIGRATION_006: &str = include_str!("../../migrations/006_page_layout_extracted_fields.sql");
+const MIGRATION_007: &str = include_str!("../../migrations/007_ocr_normalized_text.sql");
 
 /// Khoi tao database tai duong dan cho truoc.
 /// Tao file .db neu chua ton tai, chay tat ca migration.
@@ -48,6 +49,14 @@ pub fn init(db_path: &Path) -> Result<(), String> {
 
     conn.execute_batch(MIGRATION_006)
         .map_err(|e| format!("DB_INIT_MIGRATION_006_FAILED: {e}"))?;
+
+    // Migration 007: ALTER TABLE — skip if already applied
+    if let Err(e) = conn.execute_batch(MIGRATION_007) {
+        let msg = e.to_string();
+        if !msg.contains("duplicate column name") {
+            return Err(format!("DB_INIT_MIGRATION_007_FAILED: {e}"));
+        }
+    }
 
     Ok(())
 }

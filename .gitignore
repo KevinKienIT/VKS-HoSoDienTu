@@ -57,3 +57,8 @@ PhanMem/build/
 PhanMem/src-tauri/target/
 PhanMem/src-tauri/target_verify/
 V2_Archive.zip
+
+# Large binaries and test data
+*.exe
+PhanMem/_test_hoso/
+PhanMem/test_hw_sample.png

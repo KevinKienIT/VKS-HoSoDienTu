@@ -26,18 +26,18 @@ import * as searchService from "./services/searchService";
 import { useCatalogStore } from "./store/catalogStore";
 import { useModuleStore } from "./store/moduleStore";
 import { useUiStore } from "./store/uiStore";
-import { DashboardPage } from "./components/pages/DashboardPage";
-import { CaseListPage } from "./components/pages/CaseListPage";
-import { CaseDetailPage } from "./components/pages/CaseDetailPage";
-import { DocumentViewerPage } from "./components/pages/DocumentViewerPage";
-import { SearchPage } from "./components/pages/SearchPage";
-import { ImportJobPage } from "./components/pages/ImportJobPage";
-import { SettingsPage } from "./components/pages/SettingsPage";
-import { DocumentListPage } from "./components/pages/DocumentListPage";
-import { AnalyzePage } from "./components/pages/AnalyzePage";
-import { AiWorkspacePage } from "./components/pages/AiWorkspacePage";
-import { ExportPage } from "./components/pages/ExportPage";
-import { ScanPage } from "./components/pages/ScanPage";
+import { DashboardPage } from "./modules/bangdieukhien/BangDieuKhienPage";
+import { CaseListPage } from "./modules/hosovuan/DanhSachVuAnPage";
+import { CaseDetailPage } from "./modules/hosovuan/ChiTietVuAnPage";
+import { DocumentViewerPage } from "./modules/phantichtailieu/ChiTietXemTaiLieuPage";
+import { SearchPage } from "./modules/timkiem/TimKiemPage";
+import { ImportJobPage } from "./modules/duahosovao/DuaHoSoVaoPage";
+import { SettingsPage } from "./modules/cauhinh/CauHinhPage";
+import { DocumentListPage } from "./modules/quantailieu/DanhSachTaiLieuPage";
+import { AnalyzePage } from "./modules/phantichtailieu/PhanTichTaiLieuPage";
+import { AiWorkspacePage } from "./modules/phantichai/KhongGianAIPage";
+import { ExportPage } from "./modules/xuatbangiao/XuatBanGiaoPage";
+import { ScanPage } from "./modules/quettailieu/QuetTaiLieuPage";
 
 // Main workflow navigation — ordered by dossier business flow
 const NAV_MAIN = [

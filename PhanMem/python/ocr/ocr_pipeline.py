@@ -521,6 +521,8 @@ def _parse_rapid_output(result: Any, mode: str) -> tuple[list[dict], list[str]]:
         bbox = _bbox_from_points(box)
         item = {
             "text": text,
+            "normalized_text": _normalize_text(text),
+            "unicode_form": "NFC",
             "bbox": bbox,
             "confidence": confidence,
             "type": _line_kind(text, confidence, mode),
@@ -572,6 +574,8 @@ def _parse_paddle_v2(result: Any, mode: str) -> list[dict]:
             continue
         item = {
             "text": text,
+            "normalized_text": _normalize_text(text),
+            "unicode_form": "NFC",
             "bbox": _bbox_from_points(box),
             "confidence": confidence,
             "type": _line_kind(text, confidence, mode),
