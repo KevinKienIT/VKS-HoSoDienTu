@@ -1,14 +1,16 @@
-# AFTER NOTE - FND-004
+# AFTER NOTE - FND-005
 
 - Date: 2026-05-07
 - Agent: Gemini 3.1 Pro (High)
 - Results: 
-  - Ran `cargo test` which successfully passed 21 out of 21 tests.
-  - Successfully ran Python extractor manually: `python -m ocr.pdf_to_images --pdf test_pdfs/test_doc_1.pdf ...` which produced high quality 300 DPI PNGs (244KB and 11.4MB) and thumbnails, outputting the correct JSON structure for the Rust backend.
-  - Rust DB logic correctly sets `extract_status='extracted'` during insertion based on source code analysis.
-  - Due to lack of GUI interaction capability, the E2E backend import database sequence could not be automatically tested. 
-- Status: PARTIAL (MANUAL_TAURI_IMPORT_REQUIRED).
+  - Wrote a target-isolated query script (`query_fnd005_ocr_terminal.py`) to investigate `test_doc_1.pdf` (`doc-1778086172251-2`).
+  - Confirmed 2/2 pages reached terminal `ocr_status='review_pending'`.
+  - Confirmed 0 pages `pending`/`queued` for this target document.
+  - Confirmed `OCR_DONE` event was emitted with `ocr_source=stored_page_image`.
+  - Stale `pending` pages reported by `check_e2e_runtime_result.py` were confirmed to belong to a separate, unrelated document import failure.
+- Status: PASS.
 - Files Changed: 
-  - Created `v4/07_REPORTS/FND_004_PAGE_IMAGE_EXTRACTION_RUNTIME_RESULT.md`
+  - Created `PhanMem/scripts/query_fnd005_ocr_terminal.py`
+  - Created `v4/07_REPORTS/FND_005_OCR_TERMINAL_RUNTIME_RESULT.md`
   - Updated `v4/05_TASKLIST/ACTIVE_TASKS.md`
-- Next Actions: USER to open Tauri app (`npm run tauri:dev`), import the file manually, and verify the DB using `check_scan_diagram_document.py`. Then proceed to FND-005.
+- Next Actions: Proceed to FND-006 Viewer PNG-first inspection.
