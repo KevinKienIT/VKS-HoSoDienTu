@@ -1,0 +1,62 @@
+[
+  {
+    "document_id": "doc-1778129491670-6",
+    "original_filename": "001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf",
+    "page_count": 4,
+    "page_id": "page-1778129550316-7",
+    "page_index": 1,
+    "extract_status": "pending",
+    "image_path": null,
+    "has_image_path": 0
+  },
+  {
+    "document_id": "doc-1778129491670-6",
+    "original_filename": "001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf",
+    "page_count": 4,
+    "page_id": "page-1778129550321-9",
+    "page_index": 2,
+    "extract_status": "pending",
+    "image_path": null,
+    "has_image_path": 0
+  },
+  {
+    "document_id": "doc-1778129491670-6",
+    "original_filename": "001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf",
+    "page_count": 4,
+    "page_id": "page-1778129550324-11",
+    "page_index": 3,
+    "extract_status": "pending",
+    "image_path": null,
+    "has_image_path": 0
+  },
+  {
+    "document_id": "doc-1778129491670-6",
+    "original_filename": "001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf",
+    "page_count": 4,
+    "page_id": "page-1778129550328-13",
+    "page_index": 4,
+    "extract_status": "pending",
+    "image_path": null,
+    "has_image_path": 0
+  },
+  {
+    "document_id": "doc-1778086172251-2",
+    "original_filename": "001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778086172222_0001_pdf.pdf",
+    "page_count": 2,
+    "page_id": "page-1778086178813-3",
+    "page_index": 1,
+    "extract_status": "extracted",
+    "image_path": "C:\\Users\\KKIT\\AppData\\Roaming\\com.vks.ecms\\VKS_ECMS_Data\\processed\\ocr_pages\\doc_1778086172251_2\\page_001.png",
+    "has_image_path": 1
+  },
+  {
+    "document_id": "doc-1778086172251-2",
+    "original_filename": "001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778086172222_0001_pdf.pdf",
+    "page_count": 2,
+    "page_id": "page-1778086178822-5",
+    "page_index": 2,
+    "extract_status": "extracted",
+    "image_path": "C:\\Users\\KKIT\\AppData\\Roaming\\com.vks.ecms\\VKS_ECMS_Data\\processed\\ocr_pages\\doc_1778086172251_2\\page_002.png",
+    "has_image_path": 1
+  }
+]

@@ -1,0 +1,12 @@
+OK: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778086172222_0001_pdf.pdf (2 pages)
+FAIL: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf page 1 has extract_status='pending'
+FAIL: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf page 1 image_path is invalid or file missing: None
+FAIL: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf page 2 has extract_status='pending'
+FAIL: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf page 2 image_path is invalid or file missing: None
+FAIL: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf page 3 has extract_status='pending'
+FAIL: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf page 3 image_path is invalid or file missing: None
+FAIL: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf page 4 has extract_status='pending'
+FAIL: 001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf page 4 image_path is invalid or file missing: None
+
+SUMMARY OF FAILURES:
+Documents with missing PNG files or bad extract_status: ['001_khong_xac_dinh_Chua_ro_ngay_Chua_ro_co_quan_Import_nhi_u_file_VK_1778129491582_0002_pdf.pdf']
