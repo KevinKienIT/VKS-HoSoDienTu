@@ -75,7 +75,7 @@ export function ExportPage() {
             return;
         }
         setResult(exported);
-        setMessage(`Đã xuất PDF: ${exported.output_path}`);
+        setMessage(`Đã xuất PDF từ PNG: ${exported.output_path}`);
     };
 
     return (
@@ -141,10 +141,17 @@ export function ExportPage() {
                     {result ? (
                         <div className="mt-4">
                             <div className="badge badge-success">Export hoàn tất</div>
-                            <div className="text-xs text-muted mt-2">{result.output_path}</div>
+                            <div className="text-xs text-muted mt-2">PDF: {result.output_path}</div>
+                            <div className="text-xs text-muted mt-2">Manifest: {result.manifest_path}</div>
+                            <div className="text-xs text-muted mt-2">Trang xuất: {result.exported_pages} · Trang removed: {result.removed_pages}</div>
                             {result.skipped_documents.length > 0 ? (
                                 <div className="mt-2">
                                     {result.skipped_documents.map((item) => <div className="badge badge-warning" key={item}>{item}</div>)}
+                                </div>
+                            ) : null}
+                            {result.warnings.length > 0 ? (
+                                <div className="mt-2">
+                                    {result.warnings.map((item) => <div className="badge badge-warning" key={item}>{item}</div>)}
                                 </div>
                             ) : null}
                         </div>

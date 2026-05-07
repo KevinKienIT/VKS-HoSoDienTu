@@ -11,8 +11,12 @@ export interface ExportPdfInput {
 
 export interface ExportPdfResult {
   output_path: string;
+  manifest_path: string;
   merged_documents: number;
+  exported_pages: number;
+  removed_pages: number;
   skipped_documents: string[];
+  warnings: string[];
 }
 
 async function safeInvoke<T>(

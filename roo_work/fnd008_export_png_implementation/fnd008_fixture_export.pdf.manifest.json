@@ -1,0 +1,30 @@
+{
+  "schema_version": "export_png_order_v1",
+  "exported_at": "2026-05-07T00:00:00+07:00",
+  "output_pdf": "roo_work/fnd008_export_png_implementation/fnd008_fixture_export.pdf",
+  "manifest_path": "roo_work/fnd008_export_png_implementation/fnd008_fixture_export.pdf.manifest.json",
+  "source": "stored_page_images",
+  "document_ids": [
+    "fixture-doc"
+  ],
+  "pages_total": 1,
+  "pages_included": 1,
+  "pages_removed": 0,
+  "pages": [
+    {
+      "export_page_number": 1,
+      "document_id": "fixture-doc",
+      "document_title": "FND-008 fixture",
+      "page_id": "fixture-page-001",
+      "page_index": 1,
+      "current_order": 1,
+      "image_path": "PhanMem/test_pdfs/out_pngs/page_001.png",
+      "rotation": 0,
+      "removed": false,
+      "included": true,
+      "file_exists": true,
+      "file_size": 0
+    }
+  ],
+  "warnings": []
+}

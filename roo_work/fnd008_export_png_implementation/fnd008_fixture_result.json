@@ -1,0 +1,19 @@
+{
+  "status": "ok",
+  "output_path": "roo_work\\fnd008_export_png_implementation\\fnd008_fixture_export.pdf",
+  "pages_written": 1,
+  "pages": [
+    {
+      "page_id": "fixture-page-001",
+      "document_id": "fixture-doc",
+      "image_path": "PhanMem\\test_pdfs\\out_pngs\\page_001.png",
+      "rotation": 0,
+      "width_px": 5000,
+      "height_px": 3525,
+      "dpi": [
+        96.012,
+        96.012
+      ]
+    }
+  ]
+}
