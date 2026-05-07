@@ -8,12 +8,19 @@ Nguồn đối chiếu:
 
 - `v4/07_REPORTS/FND_004_PAGE_IMAGE_EXTRACTION_RUNTIME_RESULT.md`
 - `v4/07_REPORTS/FND_005_OCR_TERMINAL_RUNTIME_RESULT.md`
+- `v4/07_REPORTS/FND_006_VIEWER_PNG_FIRST_FIX.md`
 - `roo_work/allpdf_extraction_runtime_report.md` từ branch `agent/roo/fnd-allpdf-extraction-runtime`
 - `v4/07_REPORTS/FND_AllPDF_PageExtraction.md` từ branch `agent/sonnet/fnd-allpdf-extraction-test`
 - `PhanMem/python/ocr/pdf_to_images.py`
 - `PhanMem/src-tauri/src/commands/import_cmd.rs`
 - `PhanMem/src-tauri/src/commands/doc_cmd.rs`
 - `PhanMem/src-tauri/migrations/001_init_schema.sql`, `009_page_ocr_scheduler.sql`, `014_page_image_architecture.sql`, `015_page_quality_classifier.sql`
+
+Grapuco không có CLI khả dụng trong session này, nên đã dùng fallback code graph bằng `rg`:
+
+- `import_cmd.rs`: `try_count_pdf_pages`, `count_pdf_pages`, `run_page_image_extraction`, `insert_page_image_row`, `insert_page_row`, `import_one_file_for_case`, các nhánh `import_folder`/`import_multiple_files`, và các event `PAGE_IMAGE_EXTRACT_*`.
+- `doc_cmd.rs`: `run_python_json_for_import`, `run_python_json_with_timeout`, `run_ocr_for_document_scope_with_conn`, `extract_pdf_pages_for_document_with_conn`, `upsert_ocr_text`, `read_image_base64`.
+- Frontend PNG-first: `TrinhXemTaiLieu.tsx`, `AnhThuNho.tsx`, `documentService.getDocument`, `readImageBase64`, trạng thái `PAGE_IMAGE_MISSING`.
 
 ## 2. Luồng hiện tại
 
@@ -37,6 +44,8 @@ Chi tiết code hiện tại:
 - `pdf_to_images.py` dùng PyMuPDF, render từng page thành `page_###.png`, tạo thumbnail nếu có `--thumbnail-dir`, trả JSON `pages[]`.
 - `insert_page_image_row()` ghi `pages.image_path`, `thumbnail_path`, `source_pdf_path`, `source_page_number`, `current_order`, `extract_status='extracted'`, `ocr_status='queued'`.
 - `doc_cmd.rs` ưu tiên OCR từ `pages.image_path` khi đủ stored PNG; nếu thiếu, vẫn có nhánh OCR tự extract tạm từ PDF.
+- `TrinhXemTaiLieu.tsx` lấy `page_count` từ DB bằng `documentService.getDocument(documentId)`, sau đó tải PNG từng trang qua `getPageOcr`/`readImageBase64`.
+- Nếu DB báo có trang nhưng không có `image_path`, viewer hiện `PAGE_IMAGE_MISSING` và không render PDF fallback.
 
 FND-004/FND-005 đã chứng minh fixture `test_doc_1.pdf` chạy được: 2/2 trang có PNG, `extract_status='extracted'`, OCR terminal `review_pending`, `ocr_source=stored_page_image`.
 
@@ -267,7 +276,36 @@ Luồng:
    - `roo_work/allpdf_extraction_summary.json`
    - `roo_work/allpdf_extraction_detailed_pages.json`
 
-## 9. Ghi chú lỗi react-pdf/PDF fallback
+## 9. Log lỗi và cảnh báo cần chuẩn hóa
+
+Mục tiêu log là sau này nhìn DB/event là biết thiếu trang do đâu, không cần đoán từ UI.
+
+Governed events cần thêm/chuẩn hóa:
+
+- `PAGE_IMAGE_EXTRACT_STARTED`: có `document_id`, `source_pdf_path`, `expected_page_count`, `file_size`, `strategy` (`full_document` hoặc `per_page`), `dpi`.
+- `PAGE_IMAGE_EXTRACT_INCOMPLETE`: có `expected_page_count`, `extracted_page_count`, `page_rows`, `missing_page_numbers`, `bad_image_paths`, `retry_planned=true/false`.
+- `PAGE_IMAGE_EXTRACT_RETRY_STARTED`: có `retry_attempt`, `strategy`, `missing_page_numbers`, `dpi`.
+- `PAGE_IMAGE_EXTRACT_PAGE_FAILED`: có `page_number`, `retry_attempt`, `error_code`, `error_message`.
+- `PAGE_IMAGE_EXTRACT_DONE`: chỉ ghi khi validation complete.
+- `PAGE_IMAGE_EXTRACT_FAILED`: có thông điệp nghiệp vụ rõ, ví dụ: `Lỗi import PDF: thiếu trang do timeout khi render PNG; expected=20, extracted=17, missing=[18,19,20]`.
+
+Thông điệp lỗi đề xuất:
+
+```text
+Lỗi import PDF: thiếu trang do python extractor timeout. File vẫn được giữ nguyên trong originals; chưa được phép viewer/export bằng PDF fallback. Hãy retry extract các trang thiếu.
+Lỗi import PDF: thiếu trang do PNG không tồn tại trên ổ đĩa sau extract. Kiểm tra quyền ghi thư mục processed/ocr_pages và retry.
+Lỗi import PDF: số trang trong JSON extractor khác documents.page_count. Kiểm tra PDF hỏng/encrypted hoặc lỗi PyMuPDF.
+Lỗi import PDF: trang N render thất bại sau 2 lần retry. Tài liệu cần review thủ công, không đánh dấu extract complete.
+```
+
+DB fields nên lưu cùng event:
+
+- `documents.page_image_error`: thông điệp người vận hành đọc được.
+- `pages.extract_error`: lỗi kỹ thuật theo từng trang.
+- `pages.extract_attempts`: số lần thử render page.
+- `documents.page_image_attempts`: số vòng extract/retry cấp document.
+
+## 10. Ghi chú lỗi react-pdf/PDF fallback
 
 Trong runtime FND-AllPDF, Tauri dev từng báo lỗi dependency:
 
@@ -275,14 +313,31 @@ Trong runtime FND-AllPDF, Tauri dev từng báo lỗi dependency:
 - `react-pdf` unresolved từ `PhanMem/src/modules/phantichtailieu/TrinhXemTaiLieu.tsx`
 - `pdfjs-dist/build/pdf.worker.min.mjs?url` và CSS import liên quan cũng unresolved
 
-FND-006 review còn chỉ ra fallback cũ:
+FND-006 fix report ghi nhận thêm các lỗi runtime cũ:
+
+- `Cannot read properties of null (reading 'getAnnotations')`
+- `Canvas detached`
+- PDF.js Web Worker xung đột với Tauri WebView
+- bundle bị kéo theo `react-pdf`/`pdfjs-dist`, tăng rủi ro memory leak
+
+Các fallback cũ đã bị loại bỏ theo hướng PNG-first:
 
 - `PhanMem/src/components/PdfPageThumbnail.tsx` dùng `react-pdf`/`pdfjs-dist`
-- `PhanMem/src/modules/hosovuan/ChiTietVuAnPage.tsx` import thumbnail PDF cũ
+- `PhanMem/src/components/DocumentViewer.tsx` render PDF bytes trực tiếp
+- `PhanMem/src/modules/hosovuan/ChiTietVuAnPage.tsx` import thumbnail PDF cũ, cần dùng `PdfPageThumbnail` export từ `AnhThuNho.tsx`
+- `TrinhXemTaiLieu.tsx` không được suy luận số trang từ số ảnh render được; phải lấy `page_count` từ DB
 
 Commit sửa từ Sonnet:
 
 - `65c4920 [FND-006] Implement viewer PNG-first`
+
+Kết quả fix cần được giữ:
+
+- mọi import `react-pdf` trong runtime source bị xóa;
+- `Document`, `Page`, `pdfjs` không còn trong viewer/thumbnail runtime;
+- viewer dùng `readImageBase64` để đọc PNG cố định;
+- khi thiếu PNG, viewer hiển thị `PAGE_IMAGE_MISSING: ... không render PDF fallback`;
+- `npx tsc --noEmit`, `cargo test`, và `npm run tauri:dev` không load PDF.js worker.
 
 Yêu cầu cho FND-AllPDF:
 
@@ -291,7 +346,12 @@ Yêu cầu cho FND-AllPDF:
 - export chỉ dùng ordered PNG pages;
 - `rg "react-pdf|pdfjs-dist" PhanMem/src PhanMem/package.json` phải không còn dependency/import runtime. Nếu chỉ còn `overrides.pdfjs-dist` trong `package.json`, cần xóa nốt khi không còn dependency bắc cầu cần override.
 
-## 10. Test plan
+Điểm chưa chắc chắn, chưa commit code:
+
+- `PhanMem/package.json` hiện vẫn có `overrides.pdfjs-dist`. Cần kiểm tra dependency tree trước khi xóa; nếu không có package nào cần override này thì xóa để tránh hiểu nhầm rằng PDF.js vẫn được chấp nhận.
+- Các thư mục backup như `src/components/_backup_pages_v2` có thể còn code viewer cũ hoặc reference liên quan PDF. Nếu backup không nằm trong route runtime thì không chặn FND-AllPDF, nhưng nên loại khỏi source scan/runtime bundle hoặc ghi rõ là archive.
+
+## 11. Test plan
 
 ### Static checks
 
