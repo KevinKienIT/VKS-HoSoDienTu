@@ -14,7 +14,7 @@
 | FND-004 | Verify page image extraction | ✅ PASS | Agent | Pipeline | PNG 300DPI OK, extract_status=extracted, image_path set, PAGE_IMAGE_EXTRACT_DONE event confirmed | DB query + filesystem check | v4/07_REPORTS/FND_004_PAGE_IMAGE_EXTRACTION_RUNTIME_RESULT.md |
 | FND-005 | Verify OCR from stored PNG | ✅ PASS | Agent | Pipeline | Target doc OCR terminal (review_pending), OCR_DONE emitted, ocr_source=stored_page_image | DB query + checker | v4/07_REPORTS/FND_005_OCR_TERMINAL_RUNTIME_RESULT.md |
 | FND-006 | Verify Viewer PNG-first | 🔲 NEEDS_INSPECTION | Agent | UI | Read `TrinhXemTaiLieu.tsx` first before any edit | Read viewer file | v4/07_REPORTS/FND_006_VIEWER_CODE_REVIEW.md |
-| FND-007 | Group folder and natural sort | 🔲 READY_FOR_REVIEW | Agent | Pipeline+Schema | M016 created, document_groups table, documents.group_id populated | Import folder test | DB: `document_groups` table exists, `documents.group_id` populated |
+| FND-007 | Group folder and natural sort | ✅ PASS | Codex GPT-5.5 | Pipeline+Schema | M016 created, document_groups table, documents.group_id populated | `cargo test --manifest-path src-tauri\Cargo.toml -j 1` | v4/07_REPORTS/FND_007_DOCUMENT_GROUPS_IMPLEMENTATION_RESULT.md |
 | FND-008 | Verify export package and manifest | 🔲 READY_FOR_REVIEW | Agent | Pipeline | `export_pdf_bundle` uses `pages.current_order` not original PDF | Export test + review `export_cmd.rs` | v4/07_REPORTS/FND_008_EXPORT_CODE_REVIEW.md |
 | FND-009 | Run E2E runtime gate | 🔲 BLOCKED_UNTIL_CORE | Agent | Verification | Import → OCR → AI → Export verified end-to-end | `check_e2e_runtime_result.py` | Script output: PASS |
 

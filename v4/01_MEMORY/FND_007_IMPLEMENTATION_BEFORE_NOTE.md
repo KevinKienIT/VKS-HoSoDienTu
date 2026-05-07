@@ -1,0 +1,34 @@
+# FND-007 Implementation BEFORE NOTE
+
+- Date: 2026-05-07
+- Agent: Codex GPT-5.5
+- Branch: `agent/codex/fnd-007-document-groups-implementation`
+- Task: FND-007 Group folder and natural sort implementation
+- Scope:
+  - Add migration 016 for `document_groups`.
+  - Add `documents.group_id` and `documents.relative_path`.
+  - Run migration 016 in `db::init()`.
+  - Preserve folder-relative paths during import.
+  - Assign imported documents to folder groups.
+  - Apply natural sort for folder import order.
+  - Run cargo tests and a local DB/import verification fixture if possible.
+- Source of truth:
+  - `v4/README_V4.md`
+  - `v4/00_PROJECT_BRIEF/PROJECT_SUMMARY.md`
+  - `v4/01_MEMORY/PROJECT_MEMORY.md`
+  - `v4/02_RULES/AGENT_RULES.md`
+  - `v4/03_DESIGN/CURRENT_ARCHITECTURE.md`
+  - `v4/05_TASKLIST/ACTIVE_TASKS.md`
+  - `v4/07_REPORTS/FND_007_DOCUMENT_GROUPS_REVIEW.md`
+- Grapuco status:
+  - `GRAPUCO_EXTENSION_UNAVAILABLE_IN_SESSION`
+  - Manual code graph fallback used.
+- Constraints:
+  - Do not modify unrelated runtime code.
+  - Do not change OCR/page-image behavior beyond preserving import metadata.
+  - Do not add Docling runtime integration.
+  - Do not enable `assetProtocol`.
+  - Do not add system Python fallback or runtime downloads.
+- Planned test gate:
+  - `cd PhanMem && cargo test --manifest-path src-tauri/Cargo.toml`
+  - Local DB/schema/import fixture check for migration 016, `documents.group_id`, `documents.relative_path`, and natural order.

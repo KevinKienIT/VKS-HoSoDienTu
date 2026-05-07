@@ -14,6 +14,9 @@ export interface ImportedFile {
   file_ext: string;
   file_size: number;
   page_count: number;
+  group_id?: string | null;
+  relative_path?: string | null;
+  import_order?: number | null;
 }
 
 export interface ImportFolderResult {
